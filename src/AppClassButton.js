@@ -4,19 +4,21 @@ import ArticlesClass from "./ArticlesClass";
 
 const title = "Sorting Articles";
 
-export default class AppClass extends Component {
+export default class AppClassButton extends Component {
   state = {
     sortKey: null,
     articlesArray: this.props.articles,
+    decreasing: false,
   };
 
   componentDidMount() {
     let sortByUpvote = this.state.articlesArray;
+
     sortByUpvote.sort((a, b) => {
       if (a["upvotes"] > b["upvotes"]) {
-        return -1;
+        return this.state.decreasing === false ? -1 : 1;
       } else if (a["upvotes"] < b["upvotes"]) {
-        return 1;
+        return this.state.decreasing === false ? 1 : -1;
       }
       return 0;
     });
@@ -27,13 +29,16 @@ export default class AppClass extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.sortKey !== this.state.sortKey) {
+    if (
+      prevState.sortKey !== this.state.sortKey ||
+      prevState.decreasing !== this.state.decreasing
+    ) {
       let sortByKey = [...this.state.articlesArray];
       sortByKey.sort((a, b) => {
         if (a[this.state.sortKey] > b[this.state.sortKey]) {
-          return -1;
+          return this.state.decreasing === false ? -1 : 1;
         } else if (a[this.state.sortKey] < b[this.state.sortKey]) {
-          return 1;
+          return this.state.decreasing === false ? 1 : -1;
         }
         return 0;
       });
@@ -54,14 +59,24 @@ export default class AppClass extends Component {
             Sort By
           </label>
           <button
-            onClick={() => this.setState({ sortKey: "upvotes" })}
+            onClick={() =>
+              this.setState({
+                sortKey: "upvotes",
+                decreasing: !this.state.decreasing,
+              })
+            }
             data-testid="most-upvoted-link"
             className="small"
           >
             Most Upvoted
           </button>
           <button
-            onClick={() => this.setState({ sortKey: "date" })}
+            onClick={() =>
+              this.setState({
+                sortKey: "date",
+                decreasing: !this.state.decreasing,
+              })
+            }
             data-testid="most-recent-link"
             className="small"
           >

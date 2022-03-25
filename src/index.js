@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
-// import AppClass from "./AppClass";
+// import App from "./App";
+
+import AppClassButton from "./AppClassButton";
+import AppClass from "./AppClass";
 
 const ARTICLES = [
   {
@@ -42,4 +44,7 @@ const ARTICLES = [
   },
 ];
 
-ReactDOM.render(<App articles={ARTICLES} />, document.getElementById("root"));
+ReactDOM.render(
+  <AppClassButton articles={ARTICLES} />,
+  document.getElementById("root")
+);
